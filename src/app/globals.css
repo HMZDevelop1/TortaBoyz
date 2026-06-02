@@ -22,7 +22,7 @@
 @layer base {
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--color-torta-gray-600) transparent;
+    scrollbar-color: var(--color-torta-gray-700) transparent;
   }
 
   html {
@@ -47,12 +47,32 @@
 
   .bg-grid-subtle {
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 64px 64px;
   }
 
   .bg-gradient-white {
     background: linear-gradient(180deg, var(--color-torta-white) 0%, var(--color-torta-white-dark) 100%);
+  }
+
+  .shadow-card {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .shadow-card-hover {
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .ring-card {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .ring-card-hover {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  }
+
+  .mask-fade-bottom {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
   }
 }

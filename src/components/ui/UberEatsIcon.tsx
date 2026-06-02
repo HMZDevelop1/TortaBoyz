@@ -12,7 +12,7 @@ export default function UberEatsIcon({ className }: IconProps) {
     >
       <rect width="24" height="24" rx="5.5" fill="#06C167" />
       <path
-        d="M6.8 7.2h2.6v6.7c0 .8.4 1.2 1.2 1.2h2.8c.8 0 1.2-.4 1.2-1.2V7.2h2.6v6.9c0 2.2-1.4 3.7-3.8 3.7h-2.8c-2.4 0-3.8-1.5-3.8-3.7V7.2z"
+        d="M7.2 7.2h2.4v5.8c0 1 .5 1.5 1.5 1.5h1.8c1 0 1.5-.5 1.5-1.5V7.2h2.4v5.9c0 2.1-1.3 3.5-3.7 3.5h-2.2c-2.4 0-3.7-1.4-3.7-3.5V7.2z"
         fill="white"
       />
     </svg>

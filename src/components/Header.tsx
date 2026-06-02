@@ -1,191 +1,130 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "./ui/Button";
-import { Logo } from "./ui";
-import InstagramIcon from "./ui/InstagramIcon";
 
 const navLinks = [
-  { href: "#menu", label: "Menu" },
-  { href: "#about", label: "Our Story" },
-  { href: "#reviews", label: "Reviews" },
-  { href: "#location", label: "Location" },
+  { label: "About", href: "#about" },
+  { label: "Menu", href: "#menu" },
+  { label: "Gallery", href: "#gallery" },
+  { label: "Location", href: "#location" },
 ];
 
 export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 40);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
-
-  const closeMenu = useCallback(() => setMobileOpen(false), []);
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
 
   return (
-    <>
-      <header
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-700 ${
-          scrolled
-            ? "bg-torta-black/95 backdrop-blur-xl shadow-lg shadow-black/30"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="mx-auto max-w-7xl flex items-center justify-between px-6 sm:px-10 lg:px-14 h-20 md:h-24">
-          <Logo href="#" size="sm" showText animated />
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "bg-torta-black/90 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/10"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14">
+        <div className="flex items-center justify-between h-18 md:h-20">
+          <a
+            href="/"
+            className="flex items-center gap-2.5 group"
+            aria-label="Torta Boyz"
+          >
+            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+              <span className="text-torta-black font-black text-sm tracking-tight">TB</span>
+            </div>
+            <span className="text-base font-bold text-torta-white tracking-tight hidden sm:block">
+              Torta Boyz
+            </span>
+          </a>
 
           <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link, i) => (
-              <motion.a
+            {navLinks.map((link) => (
+              <a
                 key={link.href}
                 href={link.href}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 + i * 0.05 }}
-                className="text-xs font-semibold text-torta-white/70 hover:text-torta-white tracking-[0.15em] uppercase transition-colors duration-300 relative group"
+                className="text-xs font-semibold text-torta-white/50 hover:text-torta-white transition-colors duration-300 tracking-wider uppercase"
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-torta-white transition-all duration-300 group-hover:w-full" />
-              </motion.a>
+              </a>
             ))}
+            <Button
+              as="a"
+              href="https://www.opentable.com/"
+              target="_blank"
+              variant="primary"
+              size="sm"
+            >
+              Reserve a Table
+            </Button>
           </nav>
 
-          <div className="hidden md:flex items-center gap-4">
-            <motion.a
-              href="https://instagram.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              className="text-torta-white/50 hover:text-torta-white transition-colors duration-300"
-              aria-label="Instagram"
-            >
-              <InstagramIcon className="w-5 h-5" />
-            </motion.a>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: 0.35 }}
-            >
-              <Button
-                as="a"
-                href="https://www.opentable.com/r/torta-boyz-ottawa"
-                target="_blank"
-                variant="primary"
-                size="sm"
-              >
-                Reserve
-              </Button>
-            </motion.div>
-          </div>
-
           <button
-            onClick={() => setMobileOpen(true)}
-            className="md:hidden flex items-center justify-center p-2 text-torta-white/80"
-            aria-label="Open menu"
-            aria-expanded={mobileOpen}
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden relative z-50 w-10 h-10 flex items-center justify-center text-torta-white/70 hover:text-torta-white transition-colors duration-300"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
           >
-            <Menu className="w-6 h-6" />
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
+      </div>
 
-        <AnimatePresence>
-          {mobileOpen && (
-            <motion.div
-              key="mobile-menu"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-torta-black/98 z-50 flex flex-col"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Navigation menu"
-            >
-              <div className="flex items-center justify-between px-6 h-20 border-b border-torta-white/5">
-                <Logo size="xs" showText animated />
-                <button
-                  onClick={closeMenu}
-                  className="flex items-center justify-center p-2 text-torta-white/60"
-                  aria-label="Close menu"
-                  autoFocus
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              <nav className="flex flex-col items-center justify-center flex-1 gap-10 px-6">
-                {navLinks.map((link, i) => (
-                  <motion.a
-                    key={link.href}
-                    href={link.href}
-                    onClick={closeMenu}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: i * 0.08 }}
-                    className="text-2xl font-bold text-torta-white/80 hover:text-torta-white tracking-wide transition-colors"
-                  >
-                    {link.label}
-                  </motion.a>
-                ))}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-torta-black/98 backdrop-blur-2xl z-40 md:hidden"
+          >
+            <nav className="flex flex-col items-center justify-center h-full gap-8 px-6">
+              {navLinks.map((link, i) => (
                 <motion.a
-                  href="https://instagram.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 0.4 }}
-                  className="text-torta-white/40 hover:text-torta-white transition-colors"
-                  aria-label="Instagram"
-                >
-                  <InstagramIcon className="w-6 h-6" />
-                </motion.a>
-                <motion.div
+                  key={link.href}
+                  href={link.href}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.45 }}
-                  className="flex flex-col gap-3 w-full max-w-xs"
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  onClick={() => setIsOpen(false)}
+                  className="text-2xl font-bold text-torta-white/60 hover:text-torta-white transition-colors duration-300"
                 >
-                  <Button
-                    as="a"
-                    href="https://www.opentable.com/r/torta-boyz-ottawa"
-                    target="_blank"
-                    variant="primary"
-                    size="lg"
-                    onClick={closeMenu}
-                  >
-                    Reserve a Table
-                  </Button>
-                </motion.div>
-              </nav>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
-    </>
+                  {link.label}
+                </motion.a>
+              ))}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: navLinks.length * 0.06 }}
+                onClick={() => setIsOpen(false)}
+              >
+                <Button
+                  as="a"
+                  href="https://www.opentable.com/"
+                  target="_blank"
+                  variant="primary"
+                  size="lg"
+                >
+                  Reserve a Table
+                </Button>
+              </motion.div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }

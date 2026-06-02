@@ -5,6 +5,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/Button";
+import UberEatsIcon from "./ui/UberEatsIcon";
+import DoorDashIcon from "./ui/DoorDashIcon";
+import DeliveryCard from "./ui/DeliveryCard";
+
+const UBER_EATS_URL = "https://www.ubereats.com/ca/store/torta-boyz/uV2CrrhcXP-wbVKS09-wyA";
+const DOORDASH_URL = "https://www.doordash.com/business/taco-boyz-11187188?srsltid=AfmBOop7O0EGWAuhARCURqfibSWstO5oLp7choxtOTY_kqF_2xf5n5lx";
 
 const stats = [
   { label: "Google Rating", value: "4.8" },
@@ -20,14 +26,14 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0.65, 0.85]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.55, 0.85]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen min-h-[700px] flex items-center overflow-hidden bg-torta-black"
+      className="relative h-screen min-h-[680px] flex items-center overflow-hidden bg-torta-black"
     >
       <motion.div style={{ scale: bgScale }} className="absolute inset-0">
         <Image
@@ -40,16 +46,16 @@ export default function Hero() {
         />
         <motion.div
           style={{ opacity: overlayOpacity }}
-          className="absolute inset-0 bg-gradient-to-r from-torta-black/95 via-torta-black/80 to-torta-black/60"
+          className="absolute inset-0 bg-gradient-to-tr from-torta-black/95 via-torta-black/75 to-torta-black/40"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-torta-black/70 via-transparent to-torta-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-torta-black/80 via-transparent to-torta-black/20" />
       </motion.div>
 
-      <div className="absolute inset-0 bg-grid-subtle opacity-20" />
+      <div className="absolute inset-0 bg-grid-subtle opacity-[0.15]" />
 
       <motion.div
         style={{ y: textY }}
-        className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 pt-20"
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-14"
       >
         <div className="max-w-3xl">
           <motion.div
@@ -79,7 +85,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-torta-white leading-[0.92] tracking-tight"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-torta-white leading-[0.92] tracking-tight"
           >
             Authentic
             <br />
@@ -92,7 +98,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.45 }}
-            className="mt-6 text-lg md:text-xl text-torta-white/50 max-w-lg leading-relaxed"
+            className="mt-6 text-base sm:text-lg md:text-xl text-torta-white/50 max-w-lg leading-relaxed"
           >
             Generous portions, handcrafted cocktails, and bold vegetarian options.
             Real Mexican street food on Ottawa&rsquo;s Preston Street.
@@ -104,22 +110,11 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="mt-10 flex flex-wrap gap-4"
           >
-            <Button
-              as="a"
-              href="#menu"
-              variant="primary"
-              size="lg"
-            >
+            <Button as="a" href="#menu" variant="primary" size="lg">
               View Our Menu
               <ArrowRight className="w-4 h-4" />
             </Button>
-            <Button
-              as="a"
-              href="https://www.opentable.com/"
-              target="_blank"
-              variant="outline"
-              size="lg"
-            >
+            <Button as="a" href="https://www.opentable.com/" target="_blank" variant="outline" size="lg">
               Reserve a Table
             </Button>
           </motion.div>
@@ -128,11 +123,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.75 }}
-            className="mt-10 flex flex-wrap gap-10"
+            className="mt-10 flex flex-wrap gap-x-10 gap-y-3"
           >
             {stats.map((stat) => (
               <div key={stat.label}>
-                <div className="text-2xl md:text-3xl font-black text-torta-white">
+                <div className="text-2xl md:text-3xl font-black text-torta-white tabular-nums">
                   {stat.value}
                 </div>
                 <div className="text-xs text-torta-white/40 font-medium mt-1 tracking-wider uppercase">
@@ -141,6 +136,33 @@ export default function Hero() {
               </div>
             ))}
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.9 }}
+            className="mt-10 pt-6 border-t border-white/[0.06]"
+          >
+            <p className="text-[10px] text-torta-white/20 font-medium tracking-[0.2em] uppercase mb-3">
+              Order for Delivery
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <DeliveryCard
+                icon={<UberEatsIcon className="w-full h-full" />}
+                brandName="Uber Eats"
+                href={UBER_EATS_URL}
+                accentColor="#06C167"
+                variant="pill"
+              />
+              <DeliveryCard
+                icon={<DoorDashIcon className="w-full h-full" />}
+                brandName="DoorDash"
+                href={DOORDASH_URL}
+                accentColor="#FF3008"
+                variant="pill"
+              />
+            </div>
+          </motion.div>
         </div>
       </motion.div>
 
@@ -148,17 +170,17 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1 }}
-        className="absolute bottom-28 md:bottom-10 left-1/2 -translate-x-1/2"
+        className="absolute bottom-20 md:bottom-8 left-1/2 -translate-x-1/2"
       >
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2 text-torta-white/30"
+          className="flex flex-col items-center gap-2 text-torta-white/25"
         >
           <span className="text-[10px] tracking-[0.2em] uppercase font-medium">
             Scroll
           </span>
-          <div className="w-px h-8 bg-gradient-to-b from-torta-white/40 to-transparent" />
+          <div className="w-px h-8 bg-gradient-to-b from-torta-white/30 to-transparent" />
         </motion.div>
       </motion.div>
     </section>
