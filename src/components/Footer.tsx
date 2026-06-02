@@ -1,11 +1,12 @@
 "use client";
 
-import { MapPin, Clock } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Container from "./ui/Container";
 import UberEatsIcon from "./ui/UberEatsIcon";
 import DoorDashIcon from "./ui/DoorDashIcon";
 import DeliveryCard from "./ui/DeliveryCard";
 
+const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/3RXk52pvpFtfBMbk7";
 const UBER_EATS_URL = "https://www.ubereats.com/ca/store/torta-boyz/uV2CrrhcXP-wbVKS09-wyA";
 const DOORDASH_URL = "https://www.doordash.com/business/taco-boyz-11187188?srsltid=AfmBOop7O0EGWAuhARCURqfibSWstO5oLp7choxtOTY_kqF_2xf5n5lx";
 
@@ -84,16 +85,21 @@ export default function Footer() {
               Location
             </h4>
             <div className="space-y-3 text-xs text-torta-white/40">
-              <div className="flex items-start gap-2">
-                <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-torta-white/30" />
-                <span>
+              <a
+                href={GOOGLE_MAPS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-2 group cursor-pointer"
+              >
+                <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-torta-white/30 group-hover:text-torta-white transition-colors duration-300" />
+                <span className="group-hover:text-torta-white transition-colors duration-300">
                   354A Preston Street
                   <br />
                   Ottawa, ON K1S 3J2
                 </span>
-              </div>
+              </a>
               <a
-                href="https://maps.app.goo.gl/3RXk52pvpFtfBMbk7"
+                href={GOOGLE_MAPS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-torta-white/50 hover:text-torta-white transition-colors duration-300 group"
